@@ -1,0 +1,57 @@
+<mat-card class="example-result-card">
+  <mat-card-content>
+    <h2>Filter Max Price</h2>
+    <mat-slider
+        class="example-margin"
+        [max]="500"
+        [min]="0"
+        [step]="1"
+        [discrete]="true"
+        [showTickMarks]="true">
+      <input matSliderThumb #slider>
+    </mat-slider>
+    <button mat-raised-button color="accent" (click)="sliderFilter()">Filter</button>
+  </mat-card-content>
+</mat-card>
+<table mat-table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource" class="mat-elevation-z8">
+  
+    <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef> Image </th>
+        <td mat-cell *matCellDef="let element"> <img width="100px" src="data:image/png;base64,{{ element.image }}"></td>
+      </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="name"> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="price"> Price </th>
+      <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element"> 
+        <mat-form-field appearance="fill">
+          <mat-label>Ammount</mat-label>
+          <input matInput value="1" id="{{element.productId}}">
+        </mat-form-field>
+        <button mat-raised-button color="accent" (click)="addToCart(element.productId)">Add</button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of Products">
+  </mat-paginator>
+  
+  
